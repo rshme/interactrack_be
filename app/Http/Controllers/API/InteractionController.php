@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\InteractionRequest;
+use App\Models\Interaction;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class InteractionController extends Controller
 {
@@ -12,38 +15,66 @@ class InteractionController extends Controller
      */
     public function index()
     {
-        //
+        $interactions = Interaction::with(['customer', 'user'])->orderBy('interaction_date', 'desc');
+
+        return response()->json([
+            'code_status' => Response::HTTP_OK,
+            'msg_status' => 'Interactions has been loaded',
+            'data' => $interactions
+        ], Response::HTTP_OK);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(InteractionRequest $request)
     {
-        //
+        $interaction = Interaction::create($request->validated());
+
+        return response()->json([
+            'code_status' => Response::HTTP_CREATED,
+            'msg_status' => 'Interaction has been created',
+            'data' => $interaction
+        ], Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Interaction $interaction)
     {
-        //
+
+        return response()->json([
+            'code_status' => Response::HTTP_OK,
+            'msg_status' => 'Interaction has been loaded',
+            'data' => $interaction->load(['customer', 'user'])
+        ], Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(InteractionRequest $request, Interaction $interaction)
     {
-        //
+        $interaction->update($request->validated());
+
+        return response()->json([
+            'code_status' => Response::HTTP_OK,
+            'msg_status' => 'Interaction has been updated',
+            'data' => $interaction
+        ], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Interaction $interaction)
     {
-        //
+        $interaction->delete();
+
+        return response()->json([
+            'code_status' => Response::HTTP_NO_CONTENT,
+            'msg_status' => 'Interaction has been deleted'
+        ], Response::HTTP_NO_CONTENT);
     }
 }
