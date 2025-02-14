@@ -26,6 +26,8 @@ class Customer extends Model
         'status'
     ];
 
+    protected $appends = ['full_name'];
+
     public function interactions()
     {
         return $this->hasMany(Interaction::class);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -28,8 +29,8 @@ class AuthController extends Controller
         $abilities = $user->isAdmin() ? ['*'] : ['sales-access'];
 
         return response()->json([
-            'token' => $user->createToken($request->email, $abilities)->plainTextToken,
-            'user' => [
+            'accessToken' => $user->createToken($request->email, $abilities)->plainTextToken,
+            'userData' => [
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,

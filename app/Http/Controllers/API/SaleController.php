@@ -14,7 +14,13 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $invoices = Sale::with(['customer', 'user', 'items'])->orderBy('due_date', 'asc')->get();
+
+        return response()->json([
+            'code_status' => Response::HTTP_OK,
+            'msg_status' => 'Invoices has been loaded',
+            'data' => $invoices
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -22,7 +28,11 @@ class SaleController extends Controller
      */
     public function store(SaleRequest $request)
     {
-        $sale = Sale::create($request->safe()->except('items'));
+        $requests = $request->safe()->except('items');
+        $requests['user_id'] = auth()->user()->id;
+        $requests['tax'] = $requests['amount'] * 0.1;
+
+        $sale = Sale::create($requests);
         
         if ($request->has('items')) {
             foreach ($request->items as $item) {
@@ -54,7 +64,10 @@ class SaleController extends Controller
      */
     public function update(SaleRequest $request, Sale $sale)
     {
-        $sale->update($request->safe()->except('items'));
+        $requests = $request->safe()->except('items');
+        $requests['tax'] = $requests['amount'] * 0.1;
+
+        $sale->update($requests);
         
         if ($request->has('items')) {
             $sale->items()->delete();

@@ -15,7 +15,7 @@ class InteractionController extends Controller
      */
     public function index()
     {
-        $interactions = Interaction::with(['customer', 'user'])->orderBy('interaction_date', 'desc');
+        $interactions = Interaction::with(['customer', 'user'])->orderBy('interaction_date', 'desc')->get();
 
         return response()->json([
             'code_status' => Response::HTTP_OK,
@@ -29,7 +29,10 @@ class InteractionController extends Controller
      */
     public function store(InteractionRequest $request)
     {
-        $interaction = Interaction::create($request->validated());
+        $requests = $request->validated();
+        $requests['user_id'] = auth()->user()->id;
+
+        $interaction = Interaction::create($requests);
 
         return response()->json([
             'code_status' => Response::HTTP_CREATED,

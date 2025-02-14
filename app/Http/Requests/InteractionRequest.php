@@ -30,10 +30,10 @@ class InteractionRequest extends FormRequest
             'status' => 'required|string|in:planned,completed,cancelled,follow-up-required',
             'outcome' => 'nullable|string',
             'metadata' => 'nullable|array',
-            'metadata.email_subject' => 'required_if:type,email',
-            'metadata.email_body' => 'required_if:type,email',
-            'metadata.duration' => 'required_if:type,call,meeting',
-            'metadata.location' => 'required_if:type,meeting',
+            // 'metadata.email_subject' => 'required_if:type,email',
+            // 'metadata.email_body' => 'required_if:type,email',
+            // 'metadata.duration' => 'required_if:type,call,meeting',
+            // 'metadata.location' => 'required_if:type,meeting',
         ];
     }
 }

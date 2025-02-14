@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::orderBy('status')->get();
 
         return response()->json([
             'code_status' => Response::HTTP_OK,
