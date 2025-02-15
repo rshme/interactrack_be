@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\InteractionController;
 use App\Http\Controllers\API\SaleController;
 
@@ -16,6 +17,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:admin')->group(function () {
         // Route::apiResource('users', UserController::class);
         // Add other admin-only routes
+
+        Route::group(['prefix' => '/dashboard'], function(){
+            Route::get('/get-analytics', [DashboardController::class, 'getAnalytics']);
+        });
     });
 
     // Sales routes (accessible by both admin and sales)
