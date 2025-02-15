@@ -32,7 +32,8 @@ class AuthController extends Controller
             'accessToken' => $user->createToken($request->email, $abilities)->plainTextToken,
             'userData' => [
                 'id' => $user->id,
-                'name' => $user->name,
+                'displayName' => $user->name,
+                'photoURL' => 'https://avatar.iran.liara.run/username?username=' . implode('+', explode(' ', $user->name)),
                 'email' => $user->email,
                 'role' => $user->role->name
             ]
