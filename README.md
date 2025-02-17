@@ -8,7 +8,7 @@ Follow the steps below to get **InteracTrack** running on your local PC:
 
 First, clone the repository using Git. Open your terminal or command prompt and run the following command:
 
-    git clone https://github.com/your-repository-url.git
+    git clone https://github.com/rshme/interactrack_be.git
 
 This will clone the **InteracTrack** project to your local machine.
 
